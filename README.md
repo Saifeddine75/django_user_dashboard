@@ -2,6 +2,9 @@
 
 A simple Django application that allows you to **create users**, **search** for them by name, and **list all existing users** with a clean UI.
 
+<img src="app_preview.png" alt="alt text" width="800"/>
+
+
 ## ✨ Features
 
 - Create a new user with a form
@@ -40,8 +43,6 @@ make test
 ```
 
 ### 3. Other Makefile commands
-
-
 
 ``` bash
 run
