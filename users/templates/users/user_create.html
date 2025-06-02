@@ -1,0 +1,26 @@
+{{ % extends base.html % }}
+    <h2>{{ title|default:"Formulaire" }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: #888">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div style="color: red">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <button type="submit">Valider</button>
+    </form>
+
+    <a href="{% url 'user-list' %}">← Retour à la liste</a>
+</body>
+</html>
