@@ -33,8 +33,15 @@ python3 -m venv .venv
 make install-dev
 ```
 
+### 3. Unit test project
+
+``` bash
+make test
+```
 
 ### 3. Other Makefile commands
+
+
 
 ``` bash
 run
@@ -42,7 +49,6 @@ migrate
 migrations
 shell
 createsuperuser
-test
 collectstatic
 lint
 format
