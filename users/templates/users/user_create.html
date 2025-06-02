@@ -1,7 +1,7 @@
 {% extends "base.html" %}   
 {% block content %}
    <h2>{{ title|default:"Formulaire" }}</h2>
-
+    <div>
     <form method="post">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -18,10 +18,7 @@
                 {% endfor %}
             </div>
         {% endfor %}
-
-        <button type="submit">Valider</button>
-    </form>
-
-    <a href="{% url 'user-list' %}">← Retour à la liste</a>
+    </div>
+    <button type="submit" class="btn btn-primary mt-4">Valider</button>
 
 {% endblock %}
