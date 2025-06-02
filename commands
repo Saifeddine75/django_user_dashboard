@@ -1,0 +1,6 @@
+make run               # Lance le serveur Django
+make migrate           # Applique les migrations
+make app name=blog     # Crée une nouvelle app 'blog'
+make lint              # Lint du code avec flake8
+make format            # Formatage avec black
+make clean             # Supprime les fichiers inutiles
