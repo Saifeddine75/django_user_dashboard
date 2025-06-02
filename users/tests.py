@@ -29,3 +29,30 @@ class UserViewsTest(TestCase):
         response = self.client.post(reverse("user-create"), data)
         self.assertEqual(response.status_code, 302)  # redirect after success
         self.assertTrue(Users.objects.filter(email="alice@example.com").exists())
+
+
+    def test_user_update_view(self):
+        url = reverse("user-update", args=[self.user.pk])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.user.name)
+
+        updated_data = {
+            "name": "Jane Updated",
+            "email": self.user.email,
+        }
+        response = self.client.post(url, updated_data)
+        self.assertEqual(response.status_code, 302)
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.name, "Jane Updated")
+
+    def test_user_delete_view(self):
+        url = reverse("user-delete", args=[self.user.pk])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "delete")
+
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Users.objects.filter(pk=self.user.pk).exists())

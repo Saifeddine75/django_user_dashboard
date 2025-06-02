@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}   
+{% block content %}
+<h2>Are you sure you want to delete "{{ object.name }}"?</h2>
+
+<div class="mt-4">
+    {% if object %}
+    <p>Details of the user:</p>
+    <ul>
+        <li><strong>Name:</strong> {{ object.name }}</li>
+        <li><strong>Email:</strong> {{ object.email }}</li>
+    </ul>
+    {% else %}
+    <p>No user details available.</p>
+    {% endif %}
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary mt-4">Delete</button>
+  <a href="{% url 'user-list' %}" class="btn btn-secondary mt-4">Cancel</a>
+</form>
+
+{% if messages %}
+  <div class="alert alert-warning">
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% endblock %}

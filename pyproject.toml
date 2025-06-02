@@ -10,6 +10,12 @@ dependencies = [
     "django>=5.0",  # or the version you are using
 ]
 
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-django"
+]
+
 [tool.ruff]
 ignore = ["E501"]
 line-length = 120

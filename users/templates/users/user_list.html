@@ -19,6 +19,13 @@
             <p class="card-text">
               <strong>Email :</strong> {{ user.email }}
             </p>
+              <a href="{% url 'user-update' user.pk %}" title="Edit">
+                <i class="fas fa-edit"></i>
+              </a>              
+              &nbsp;
+              <a href="{% url 'user-delete' user.pk %}" title="Delete">
+                <i class="fas fa-trash-alt"></i>
+              </a>
           </div>
         </div>
       </div>
