@@ -32,3 +32,20 @@ python3 -m venv .venv
 # Install the django project and run it for dev env
 make install-dev
 ```
+
+
+### 3. Other Makefile commands
+
+``` bash
+run
+migrate
+migrations
+shell
+createsuperuser
+test
+collectstatic
+lint
+format
+app
+clean
+```
