@@ -1,0 +1,15 @@
+[project]
+name = "myproject"
+version = "0.0.1"
+description = "A Django project"
+authors = [
+    { name = "Saifeddine BEJAOUI", email = "saifeddine.bejaoui@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "django>=5.0",  # or the version you are using
+]
+
+[tool.ruff]
+ignore = ["E501"]
+line-length = 120
