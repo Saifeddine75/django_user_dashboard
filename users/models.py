@@ -5,4 +5,7 @@ class Users(models.Model):
     name = models.CharField(max_length=30, blank=True)
     email = models.EmailField(unique=True)
 
+    def __str__(self):
+        return self.name
+
 
