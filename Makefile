@@ -4,6 +4,7 @@ MANAGE=manage.py
 
 
 .PHONY: \
+	check-venv \
 	install-dev \
 	run \
 	migrate \
@@ -19,9 +20,12 @@ MANAGE=manage.py
 
 
 install-dev:
-	@read -p "Did you activate your virtual environment named ".venv" ? (y/n) " answer; \
+	@echo "Vérification de l'environnement virtuel..."
+	make check-venv
+	@read -p "Did you activate your virtual environment named \".venv\" ? (y/n) " answer; \
 	if [ "$$answer" != "y" ]; then \
 		echo "Aborted."; \
+		echo "Virtual env not found."; \
 		exit 1; \
 	fi
 	@echo "Installation de Django..."
@@ -33,7 +37,21 @@ install-dev:
 	@echo "Démarrage du serveur de développement..."
 	make run
 
+
+# Check if the virtual environment is active and its name is ".venv"
+check-venv:
+	@if [ -z "$$VIRTUAL_ENV" ]; then \
+		echo "❌ No virtual environment is activated."; \
+		exit 1; \
+	elif [ "$$(basename $$VIRTUAL_ENV)" != ".venv" ]; then \
+		echo "❌ Wrong virtual environment. Expected '.venv', got '$$(basename $$VIRTUAL_ENV)'."; \
+		exit 1; \
+	else \
+		echo "✅ Virtual environment '.venv' is active."; \
+	fi
+
 run:
+	@echo "Starting the Django development server..."
 	$(PYTHON) $(MANAGE) runserver
 
 migrate:
@@ -55,7 +73,7 @@ collectstatic:
 	$(PYTHON) $(MANAGE) collectstatic --noinput
 
 lint:
-	flake8 .
+	ruff check .
 
 format:
 	black .
