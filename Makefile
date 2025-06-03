@@ -1,6 +1,12 @@
 # Variables
 PYTHON=python
 MANAGE=manage.py
+UV=TRUE # Set to TRUE if you want to use uv pip, otherwise set to FALSE
+ifeq ($(UV), TRUE)
+	PIP=uv pip
+else
+	PIP=pip
+endif
 
 
 .PHONY: \
@@ -29,7 +35,7 @@ install-dev:
 		exit 1; \
 	fi
 	@echo "Installation de Django..."
-	uv pip install django
+	$(PIP) install django
 	@echo "Création des migrations..."
 	make migrations
 	@echo "Exécution des migrations..."
