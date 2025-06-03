@@ -13,31 +13,9 @@
     <h1>{% trans "Sign In" %}</h1>
 
     {% get_providers as socialaccount_providers %}
-
-    {% if socialaccount_providers %}
-    <p>{% blocktrans with site.name as site_name %}Veuillez vous connecter avec un
-    de vos comptes tiers existants.<br>Ou, <a href="{{ signup_url }}">inscrivez-vous</a>
-    pour un compte {{ site_name }} et connectez-vous ci-dessous :{% endblocktrans %}</p>
-
-    <div class="socialaccount_ballot">
-
-      <div class="socialaccount_providers">
-        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-      </div>
-
-      <div class="login-or border-top border-bottom my-3">{% trans 'Ou' %}</div>
-
-    </div>
-
-    {% include "socialaccount/snippets/login_extra.html" %}
-
-    {% else %}
-    <p>{% blocktrans %}Si vous n'avez pas encore créé de compte, veuillez
-    <a href="{{ signup_url }}">inscrivez-vous</a> d'abord.{% endblocktrans %}</p>
-    {% endif %}
   </div>
   <div class="row">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-4 offset-md-4">
       <form class="login" method="POST" action="{% url 'account_login' %}">
           {% csrf_token %}
           {{ form|crispy }}
@@ -45,10 +23,38 @@
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
           {% endif %}
           <div class="d-grid">
-            <button class="primaryAction mt-3 btn btn-dark" type="submit">{% trans "S'identifier" %}</button><br>
+            {% if socialaccount_providers %}
+            <div class="d-flex align-items-center gap-2 mt-3">
+            {# Social login buttons inline here #}
+            {% providers_media_js %}
+            {% if socialaccount_providers %}
+              {% for provider in socialaccount_providers %}
+                <a class="btn btn-outline-primary" href="{% provider_login_url provider.id process='login' %}">
+                  <i class="fa-brands fa-{{ provider.id|lower }}"></i> {{ provider.name }}
+                </a>
+              {% endfor %}
+            {% endif %}
+          </div>
+            <button class="primaryAction mt-3 btn btn-dark" type="submit">{% trans "Login" %}</button><br>
+
+            {% comment %} <div class="row display-inline justify-content-center">
+              <div class="col-12">
+                <div class="socialaccount_ballot text-center">
+
+                  <div class="socialaccount_providers mb-4 mt-4">
+                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                  </div>
+
+                </div>
+              </div>
+            </div> {% endcomment %}
+            {% include "socialaccount/snippets/login_extra.html" %}
+
+            {% endif %}
             <a class="button secondaryAction text-dark text-center" href="{% url 'account_reset_password' %}">{% trans "Mot de passe oublié?" %}</a>
           </div>
         </form>
+        
     </div>
   </div>
 {% endblock %}

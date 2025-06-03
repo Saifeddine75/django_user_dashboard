@@ -1,4 +1,4 @@
-{% extends "socialaccount/base.html" %}
+{% extends "account/base.html" %}
 
 {% load i18n %}
 
@@ -41,7 +41,7 @@
     </form>
 
     {% else %}
-    <p>{% trans 'Vous n\'avez actuellement aucun compte de réseau social connecté à ce compte.' %}</p>
+    <p>{% trans "Vous n'avez actuellement aucun compte de réseau social connecté à ce compte." %}</p>
     {% endif %}
 
     <hr>
