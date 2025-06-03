@@ -7,7 +7,13 @@ authors = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "django>=5.0",  # or the version you are using
+    "crispy-bootstrap4>=2024.10",
+    "cryptography>=45.0.3",
+    "django>=5.0", # or the version you are using
+    "django-allauth>=65.9.0",
+    "django-crispy-forms>=2.4",
+    "pyjwt>=2.10.1",
+    "requests>=2.32.3",
 ]
 
 [project.optional-dependencies]
