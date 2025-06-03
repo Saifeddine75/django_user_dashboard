@@ -1,7 +1,14 @@
+# Project
+.TODO
 .env
 
+# Cache
+/*.pyc
 __pycache__/
 
+# Database
 db.sqlite3
 
-staticfiles/
+# Static files
+/staticfiles/
+/static_root/
