@@ -16,7 +16,9 @@
 </div>
 
 <div>
+  {% if user_data %}
   Number of users: {{users_count}}
+  {% endif %}
 </div>
 
 {% if users_with_attrs %}
@@ -84,7 +86,7 @@
     {% endfor %}
   </div>
 {% else %}
-  <div class="alert alert-warning text-center">No users found.</div>
+  <div class="alert text-center">No users found.</div>
 {% endif %}
 
 
