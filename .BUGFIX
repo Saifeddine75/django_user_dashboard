@@ -1,6 +1,0 @@
-- [ ] Env import
-
-File "C:\Users\Saifeddine\DEV\TESTS_TECHNIQUES\TEST_DJANGO_MEDIALAB\myproject\myproject\settings.py", line 13, in <module>
-    ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(',')
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'split'

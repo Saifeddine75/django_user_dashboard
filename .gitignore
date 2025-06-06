@@ -15,3 +15,7 @@ db.sqlite3
 # Static files
 /staticfiles/
 /static_root/
+
+# Generated files
+django_commands.mk
+
