@@ -4,7 +4,9 @@ from django.contrib.auth import get_user_model
 class Command(BaseCommand):
     help = 'Deletes all users from the system'
 
-    def handle(self):
+    def handle(self, *args, **options):
+        verbosity = options.get('verbosity', 1)
+
         User = get_user_model()
         count = User.objects.count()
 
