@@ -6,9 +6,17 @@
 
 <div class="mt-3 mb-4">
   <form method="get" action="">
-      <input type="text" name="q" placeholder="Search by name..." value="{{ request.GET.q }}">
+      <input type="text" name="q" placeholder="Search by attributes..." value="{{ request.GET.q }}">
       <button type="submit" class="btn btn-primary">Search</button>
+      <div>
+        <label><input type="checkbox" name="is_admin" value="1" {% if is_admin %}checked{% endif %}> Admin</label>
+        <label><input type="checkbox" name="is_active" value="1" {% if is_active %}checked{% endif %}> Active</label>
+      </div>
   </form>
+</div>
+
+<div>
+  Number of users: {{users_count}}
 </div>
 
 {% if users_with_attrs %}
@@ -46,14 +54,17 @@
                   {% if user_data.user.is_staff %}
                     <span class="badge bg-primary">Admin</span>
                   {% endif %}
-                  
-                  <span class="badge bg-info">created at {{ user_data.user.date_joined|date:"Y-m-d" }}</span>
-                  
-                  {% if user_data.user.last_login %}
-                    <span class="badge bg-secondary">Last login: {{ user_data.user.last_login|date:"Y-m-d H:i" }}</span>
-                  {% else %}
-                    <span class="badge bg-secondary">No last login</span>
-                  {% endif %}
+                  <div>
+                    {% if user_data.user.last_login %}
+                      <span class="badge bg-secondary">Last login: {{ user_data.user.last_login|date:"Y-m-d H:i" }}</span>
+                    {% else %}
+                      <span class="badge bg-secondary">No last login</span>
+                    {% endif %}
+                  </div>
+                  <div>
+                    <span class="badge bg-info">created at {{ user_data.user.date_joined|date:"Y-m-d" }}</span>
+                  </div>
+
                 </div>
                 <div class="align-self-end d-flex justify-content-end align-flex-end align-items-bottom ms-2 gap-2">
                   <a href="{% url 'user-update' user_data.user.pk %}" title="Edit">

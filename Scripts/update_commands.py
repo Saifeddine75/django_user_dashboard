@@ -1,7 +1,10 @@
 # generate_makefile_commands.py
-import sys
+import os
 import django
 from django.core.management import get_commands
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', '../myproject.settings')  # replace with your actual settings path
+django.setup()
 
 def main():
     django.setup()

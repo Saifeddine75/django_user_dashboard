@@ -1,4 +1,5 @@
 import random
+import re
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from django.utils.crypto import get_random_string
@@ -14,6 +15,8 @@ class Command(BaseCommand):
         for i in range(options['nb']):
             username = f"user{i}_{get_random_string(5)}"
             email = f"{username}@example.com"
+            user.first_name = re.split(r'[._-]', user.username)[0]
+            user.last_name = re.split(r'[._-]', user.username)[1]
             password = "test123%"
             role = random.choices(
                 ['superuser', 'staff', 'regular'],
