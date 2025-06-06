@@ -1,3 +1,5 @@
+-include django_commands.mk
+
 # Variables
 PYTHON=python
 MANAGE=manage.py
@@ -17,12 +19,15 @@ endif
 	migrations \
 	shell \
 	createsuperuser \
+	list_commands \
+	update_commands \
 	test \
 	collectstatic \
 	lint \
 	format \
 	app \
 	clean
+
 
 
 install-dev:
@@ -66,11 +71,45 @@ migrate:
 migrations:
 	$(PYTHON) $(MANAGE) makemigrations
 
+delete-migrations:
+	python clean_migrations.py
+	rm db.sqlite3
+	# find . -path "*/migrations/*.py" ! -name "__init__.py" -delete
+	# find . -path "*/migrations/*.pyc" -delete
+
+# Delete and recreate migrations
+remake-migrations: delete-migrations
+	python manage.py makemigrations
+	python manage.py migrate
+
+reset-db:
+	python manage.py flush --no-input
+	python manage.py migrate
+	python manage.py createsuperuser
+
+save-db:
+	python manage.py dumpdata > db.json
+
+load-db:
+	python manage.py loaddata db.json
+
 shell:
 	$(PYTHON) $(MANAGE) shell
 
 createsuperuser:
 	$(PYTHON) $(MANAGE) createsuperuser
+
+list-commands:
+	@echo "Available Django commands:"
+	$(PYTHON) $(MANAGE) help | grep -E '^[ ]+[a-zA-Z]' | awk '{print $$1}'
+
+update-commands:
+	export DJANGO_SETTINGS_MODULE=../myproject.settings
+	python Scripts/update_commands.py > django_commands.mk
+	@echo "Commands from django_commands.mk:"
+	@grep '^\.[Pp][Hh][Oo][Nn][Yy]: ' django_commands.mk | sed 's/\.PHONY: //' | sort
+
+
 
 test:
 	$(PYTHON) $(MANAGE) test

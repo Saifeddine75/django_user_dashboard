@@ -1,4 +1,6 @@
-{% extends "base.html" %}   
+{% extends "base.html" %} 
+{% load static %}
+{% load i18n %}
 {% block content %}
 <h2>Liste of Users</h2>
 
@@ -9,23 +11,62 @@
   </form>
 </div>
 
-{% if users %}
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    {% for user in users %}
+{% if users_with_attrs %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3">
+    {% for user_data in users_with_attrs %}
       <div class="col">
         <div class="card h-100 shadow-sm border-0">
-          <div class="card-body">
-            <h5 class="card-title">{{ user.name }}</h5>
-            <p class="card-text">
-              <strong>Email :</strong> {{ user.email }}
-            </p>
-              <a href="{% url 'user-update' user.pk %}" title="Edit">
-                <i class="fas fa-edit"></i>
-              </a>              
-              &nbsp;
-              <a href="{% url 'user-delete' user.pk %}" title="Delete">
-                <i class="fas fa-trash-alt"></i>
-              </a>
+          <div class="card-body mb-3 gap-2">
+            <span>
+              <div class="d-flex align-items-center">
+                <i class="fas fa-user"></i>
+                <h5 class="card-title ms-2 mt-1">{{ user_data.user.username }}</h5>
+              </div>
+            </span>
+
+            <div class="card-text" id="user-details-{{ forloop.counter }}">
+              {% for label, value in user_data.attributes %}
+                <p class="{% if forloop.counter > 3 %}d-none extra-attr-{{ forloop.parentloop.counter }}{% endif %}">
+                  <strong>{{ label }}:</strong> {{ value }}
+                </p>
+              {% endfor %}
+              <button class="btn btn-sm btn-link p-0 mb-2 text-decoration-none text-secondary"
+                      onclick="document.querySelectorAll('.extra-attr-{{ forloop.counter }}').forEach(e => e.classList.toggle('d-none')); 
+                               document.getElementById('toggle-icon-{{ forloop.counter }}').classList.toggle('fa-chevron-down'); 
+                               document.getElementById('toggle-icon-{{ forloop.counter }}').classList.toggle('fa-chevron-up');">
+                  <i id="toggle-icon-{{ forloop.counter }}" class="fas fa-chevron-down transition"></i> Show more
+              </button>
+              <span class="d-flex flex-direction-row justify-content-between align-items-center">
+                <div>
+                  {% if user_data.user.is_active %}
+                    <span class="badge bg-success">Active</span>
+                  {% else %}
+                    <span class="badge bg-danger">Inactive</span>
+                  {% endif %}
+                  {% if user_data.user.is_staff %}
+                    <span class="badge bg-primary">Admin</span>
+                  {% endif %}
+                  
+                  <span class="badge bg-info">created at {{ user_data.user.date_joined|date:"Y-m-d" }}</span>
+                  
+                  {% if user_data.user.last_login %}
+                    <span class="badge bg-secondary">Last login: {{ user_data.user.last_login|date:"Y-m-d H:i" }}</span>
+                  {% else %}
+                    <span class="badge bg-secondary">No last login</span>
+                  {% endif %}
+                </div>
+                <div class="align-self-end d-flex justify-content-end align-flex-end align-items-bottom ms-2 gap-2">
+                  <a href="{% url 'user-update' user_data.user.pk %}" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  &nbsp;
+                  <a href="{% url 'user-delete' user_data.user.pk %}" title="Delete">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </div>
+              </span>
+
+            </div>
           </div>
         </div>
       </div>

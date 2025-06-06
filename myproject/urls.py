@@ -15,13 +15,14 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
-from django.views.generic import TemplateView
+from django.urls import path, include, reverse_lazy
+from django.views.generic import TemplateView, RedirectView
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('', RedirectView.as_view(url=reverse_lazy('home'), permanent=False)),
     path("accounts/", include("allauth.urls")),
     path("home/", TemplateView.as_view(template_name="dashboard/home.html"), name="home"),
-    path("", include("users.urls")),
+    path("users/", include("users.urls")),
 ]

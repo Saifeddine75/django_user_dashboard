@@ -36,22 +36,10 @@
             {% endif %}
           </div>
             <button class="primaryAction mt-3 btn btn-dark" type="submit">{% trans "Login" %}</button><br>
-
-            {% comment %} <div class="row display-inline justify-content-center">
-              <div class="col-12">
-                <div class="socialaccount_ballot text-center">
-
-                  <div class="socialaccount_providers mb-4 mt-4">
-                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                  </div>
-
-                </div>
-              </div>
-            </div> {% endcomment %}
             {% include "socialaccount/snippets/login_extra.html" %}
 
             {% endif %}
-            <a class="button secondaryAction text-dark text-center" href="{% url 'account_reset_password' %}">{% trans "Mot de passe oublié?" %}</a>
+            {% comment %} <a class="button secondaryAction text-dark text-center" href="{% url 'account_reset_password' %}">{% trans "Mot de passe oublié?" %}</a> {% endcomment %}
           </div>
         </form>
         

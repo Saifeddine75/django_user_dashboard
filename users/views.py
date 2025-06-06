@@ -2,10 +2,19 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Users
+# from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
-# Create your views here.
+USER_ATTRIBUTES = [
+    ("Email", "email"),
+    ("Username", "username"),
+    ("First name", "first_name"),
+    ("Last name", "last_name"),
+    ("Updated at", "updated_at"),
+]
+
+
 class UserCreateView(CreateView):
     model = Users
     form_class = CustomUserCreationForm
@@ -16,14 +25,23 @@ class UserCreateView(CreateView):
 class UserListView(ListView):
     model = Users
     template_name = "users/user_list.html"
-    context_object_name = "users"  # Name of the variable to access in the template
+    context_object_name = "users"
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        query = self.request.GET.get("q")  # récupération du paramètre 'q' dans l'URL
-        if query:
-            queryset = queryset.filter(name__icontains=query)
-        return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = Users.objects.all()  # Fetch all users from the User model
+
+        users_with_attrs = []
+        for user in users:
+            attrs = []
+            for label, attr in USER_ATTRIBUTES:
+                value = getattr(user, attr, None)
+                if value not in [None, '']:
+                    attrs.append((label, value))
+            users_with_attrs.append({"user": user, "attributes": attrs})
+
+        context["users_with_attrs"] = users_with_attrs
+        return context
 
 
 class UserUpdateView(UpdateView):

@@ -12,6 +12,8 @@ dependencies = [
     "django>=5.0", # or the version you are using
     "django-allauth>=65.9.0",
     "django-crispy-forms>=2.4",
+    "django-environ>=0.12.0",
+    "pillow>=11.2.1",
     "pyjwt>=2.10.1",
     "requests>=2.32.3",
 ]
